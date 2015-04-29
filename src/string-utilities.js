@@ -1,5 +1,8 @@
-define(['lodash'],
-    function(_) {
+// Copyright (c) CBC/Radio-Canada. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+define(['lodash', 'slug'],
+    function(_, slug) {
         'use strict';
 
         var stringUtilities = {};
@@ -24,14 +27,14 @@ define(['lodash'],
             return left.toUpperCase() === right.toUpperCase();
         };
 
-        stringUtilities.stripHtmlFromText = function (text) {
+        stringUtilities.stripHtmlFromText = function(text) {
             //tinymce related - redondant avec la ligne suivante....!?
             //var result = text.replace(new RegExp('<img[^>]*class="nonbreaking"[^>]*>', 'g'), ' ');
 
-            return text.replace(/<(?:.|\n)*?>/gm, '');
+            return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
         };
 
-        stringUtilities.trimRight = function (string, charlist) {
+        stringUtilities.trimRight = function(string, charlist) {
             if (string) {
                 if (string.toString) {
                     string = string.toString();
@@ -46,6 +49,39 @@ define(['lodash'],
 
             return '';
         };
+
+        var slugOptions = {
+            lower: true,
+            symbols: false,
+            charmap: _.assign({}, slug.charmap, {
+                '\'': ' ',
+                '’': ' ',
+                '&': 'et',
+                '|': '',
+                '<': '',
+                '>': '',
+                '8': 'infini',
+                '?': 'franc',
+                '£': 'livre'
+            }),
+            multicharmap: {}
+        };
+
+        stringUtilities.toSlug = function(text) {
+            if (!text) {
+                return '';
+            }
+
+            text = stringUtilities.stripHtmlFromText(text);
+            text = text.replace(/&amp;/g, '&');
+            text = removeFrenchArticles(text);
+
+            return slug(text, slugOptions);
+        };
+
+        function removeFrenchArticles(text) {
+            return text.replace(/\b(le|la|les|l'|l’|du|de|des|d'|d’)\b/gi, ' ');
+        }
 
         return stringUtilities;
 
