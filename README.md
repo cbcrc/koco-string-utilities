@@ -1,2 +1,20 @@
 # koco-string-utilities
-String utilities to be used with a koco project.
+String utilities to be used with a [KOCO](https://github.com/cbcrc/generator-koco) project.
+
+## Installation
+
+```bash
+bower install koco-string-utilities
+```
+
+## Usage with KOCO
+
+This is a shared module that is used in many other module. The convention is to configure an alias in the require.configs.js with the name `string-utilties` like so:
+
+```javascript
+paths: {
+  ...
+  'string-utilities': 'bower_components/koco-string-utilities/src/string-utilities'
+  ...
+}
+```
