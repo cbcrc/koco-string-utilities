@@ -1,6 +1,8 @@
 # koco-string-utilities
 String utilities to be used with a [KOCO](https://github.com/cbcrc/generator-koco) project.
 
+[See API reference](https://github.com/cbcrc/koco-string-utilities/wiki/API-reference-documentation)
+
 ## Installation
 
 ```bash
