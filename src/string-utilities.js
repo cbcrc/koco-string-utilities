@@ -5,36 +5,36 @@ define(['lodash', 'slug'],
     function(_, slug) {
         'use strict';
 
-        var stringUtilities = {};
+        var StringUtilities = function() {};
 
-        stringUtilities.equalsIgnoreCase = function(str1, str2) {
+        StringUtilities.prototype.equalsIgnoreCase = function(str1, str2) {
             return (str1 || '').toLowerCase() === (str2 || '').toLowerCase();
         };
 
-        stringUtilities.startsWithIgnoreCase = function(str1, str2) {
+        StringUtilities.prototype.startsWithIgnoreCase = function(str1, str2) {
             return _.startsWith((str1 || '').toLowerCase(), (str2 || '').toLowerCase());
         };
 
-        stringUtilities.capitaliseFirstLetter = function(value) {
+        StringUtilities.prototype.capitaliseFirstLetter = function(value) {
             return _.capitalize(value);
         };
 
-        stringUtilities.uncapitaliseFirstLetter = function(value) {
+        StringUtilities.prototype.uncapitaliseFirstLetter = function(value) {
             return value.charAt(0).toLowerCase() + value.slice(1);
         };
 
-        stringUtilities.caseInsensitiveCmp = function(left, right) {
+        StringUtilities.prototype.caseInsensitiveCmp = function(left, right) {
             return left.toUpperCase() === right.toUpperCase();
         };
 
-        stringUtilities.stripHtmlFromText = function(text) {
+        StringUtilities.prototype.stripHtmlFromText = function(text) {
             //tinymce related - redondant avec la ligne suivante....!?
             //var result = text.replace(new RegExp('<img[^>]*class="nonbreaking"[^>]*>', 'g'), ' ');
 
             return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
         };
 
-        stringUtilities.trimRight = function(string, charlist) {
+        StringUtilities.prototype.trimRight = function(string, charlist) {
             if (string) {
                 if (string.toString) {
                     string = string.toString();
@@ -67,12 +67,14 @@ define(['lodash', 'slug'],
             multicharmap: {}
         };
 
-        stringUtilities.toSlug = function(text) {
+        StringUtilities.prototype.toSlug = function(text) {
+            var self = this;
+
             if (!text) {
                 return '';
             }
 
-            text = stringUtilities.stripHtmlFromText(text);
+            text = self.prototype.stripHtmlFromText(text);
             text = text.replace(/&amp;/g, '&');
             text = removeFrenchArticles(text);
 
@@ -83,6 +85,5 @@ define(['lodash', 'slug'],
             return text.replace(/\b(le|la|les|l'|l’|du|de|des|d'|d’)\b/gi, ' ');
         }
 
-        return stringUtilities;
-
+        return new StringUtilities();
     });
