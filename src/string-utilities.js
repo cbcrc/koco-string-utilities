@@ -74,7 +74,7 @@ define(['lodash', 'slug'],
                 return '';
             }
 
-            text = self.prototype.stripHtmlFromText(text);
+            text = self.stripHtmlFromText(text);
             text = text.replace(/&amp;/g, '&');
             text = removeFrenchArticles(text);
 
