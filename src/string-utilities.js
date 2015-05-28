@@ -55,14 +55,13 @@ define(['lodash', 'slug'],
             symbols: false,
             charmap: _.assign({}, slug.charmap, {
                 '\'': ' ',
-                '’': ' ',
+                'â€™': ' ',
                 '&': 'et',
                 '|': '',
                 '<': '',
                 '>': '',
                 '8': 'infini',
-                '?': 'franc',
-                '£': 'livre'
+                'Â£': 'livre'
             }),
             multicharmap: {}
         };
@@ -82,7 +81,7 @@ define(['lodash', 'slug'],
         };
 
         function removeFrenchArticles(text) {
-            return text.replace(/\b(le|la|les|l'|l’|du|de|des|d'|d’)\b/gi, ' ');
+            return text.replace(/\b(le|la|les|l'|lâ€™|du|de|des|d'|dâ€™)\b/gi, ' ');
         }
 
         return new StringUtilities();
