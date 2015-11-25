@@ -60,7 +60,7 @@ define(['lodash', 'slug'],
                 '|': '',
                 '<': '',
                 '>': '',
-                '8': 'infini',
+                //'8': 'infini',
                 '£': 'livre'
             }),
             multicharmap: {}
