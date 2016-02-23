@@ -33,6 +33,13 @@ define(['lodash', 'slug'],
 
             return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
         };
+        
+        StringUtilities.prototype.containsHtmlInText = function(text) {
+            var nbsps = text.match(/&nbsp;/g);
+            var tags = text.match(/<(?:.|\n)*?>/g);
+
+            return nbsps || tags;
+        };
 
         StringUtilities.prototype.trimRight = function(string, charlist) {
             if (string) {
