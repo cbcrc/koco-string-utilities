@@ -1,18 +1,32 @@
 // Copyright (c) CBC/Radio-Canada. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-define(['lodash', 'slug'],
-    function(_, slug) {
+define(['slug'],
+    function(slug) {
         'use strict';
 
-        var StringUtilities = function() {};
+        var StringUtilities = function() {
+            this.slugOptions = {
+                lower: true,
+                symbols: false,
+                multicharmap: {}
+            };
+        };
 
         StringUtilities.prototype.equalsIgnoreCase = function(str1, str2) {
-            return (str1 || '').toLowerCase() === (str2 || '').toLowerCase();
+            str1 = str1 || '';
+            str2 = str2 || '';
+            return str1.toLowerCase() === str2.toLowerCase();
+        };
+
+        StringUtilities.prototype.caseInsensitiveCmp = function(left, right) {
+            return this.equalsIgnoreCase(left, right);
         };
 
         StringUtilities.prototype.startsWithIgnoreCase = function(str1, str2) {
-            return _.startsWith((str1 || '').toLowerCase(), (str2 || '').toLowerCase());
+            str1 = str1 || '';
+            str2 = str2 || '';
+            return this.equalsIgnoreCase(str1.substr(0, str2.length), str2);
         };
 
         StringUtilities.prototype.capitaliseFirstLetter = function(value) {
@@ -23,14 +37,7 @@ define(['lodash', 'slug'],
             return value.charAt(0).toLowerCase() + value.slice(1);
         };
 
-        StringUtilities.prototype.caseInsensitiveCmp = function(left, right) {
-            return left.toUpperCase() === right.toUpperCase();
-        };
-
         StringUtilities.prototype.stripHtmlFromText = function(text) {
-            //tinymce related - redondant avec la ligne suivante....!?
-            //var result = text.replace(new RegExp('<img[^>]*class="nonbreaking"[^>]*>', 'g'), ' ');
-
             return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
         };
 
@@ -57,39 +64,16 @@ define(['lodash', 'slug'],
             return '';
         };
 
-        var slugOptions = {
-            lower: true,
-            symbols: false,
-            charmap: _.assign({}, slug.charmap, {
-                '\'': ' ',
-                '’': ' ',
-                '&': 'et',
-                '|': '',
-                '<': '',
-                '>': '',
-                //'8': 'infini',
-                '£': 'livre'
-            }),
-            multicharmap: {}
-        };
-
         StringUtilities.prototype.toSlug = function(text) {
-            var self = this;
-
             if (!text) {
                 return '';
             }
 
-            text = self.stripHtmlFromText(text);
+            text = this.stripHtmlFromText(text);
             text = text.replace(/&amp;/g, '&');
-            text = removeFrenchArticles(text);
 
-            return slug(text, slugOptions);
+            return slug(text, this.slugOptions);
         };
-
-        function removeFrenchArticles(text) {
-            return text.replace(/\b(le|la|les|l'|l’|du|de|des|d'|d’)\b/gi, ' ');
-        }
 
         return new StringUtilities();
     });

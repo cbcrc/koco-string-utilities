@@ -23,7 +23,6 @@
     "tests"
   ],
   "dependencies": {
-    "lodash": "^3.7.0",
     "slug": "^0.9.1"
   }
 }
