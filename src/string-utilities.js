@@ -16,7 +16,7 @@ define(['lodash', 'slug'],
         };
 
         StringUtilities.prototype.capitaliseFirstLetter = function(value) {
-            return _.capitalize(value);
+            return value.charAt(0).toUpperCase() + value.slice(1);
         };
 
         StringUtilities.prototype.uncapitaliseFirstLetter = function(value) {
@@ -33,7 +33,7 @@ define(['lodash', 'slug'],
 
             return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
         };
-        
+
         StringUtilities.prototype.containsHtmlInText = function(text) {
             var nbsps = text.match(/&nbsp;/g);
             var tags = text.match(/<(?:.|\n)*?>/g);
