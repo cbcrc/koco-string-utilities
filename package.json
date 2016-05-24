@@ -1,22 +1,22 @@
 {
-    "name": "koco-string-utilities",
-    "version": "0.2.0",
-    "homepage": "https://github.com/cbcrc/koco-string-utilities",
-    "authors": [
-        "fcharest <frederik.charest@radio-canada.ca>"
-    ],
-    "main": "src/string-utilities.js",
-    "description": "String utilities to be used with a koco project",
-    "scripts": {
-        "build": "rm -rf dist && mkdir dist && cp -r src/* dist && rm -rf dist/*.js && babel src --out-dir dist --modules umd --presets es2015,stage-0"
-    },
-    "keywords": [
-        "string",
-        "utilities",
-        "koco"
-    ],
-    "license": "MIT",
-    "dependencies": {
-        "slug": "^0.9.1"
-    }
+  "name": "koco-string-utilities",
+  "version": "1.0.0",
+  "homepage": "https://github.com/cbcrc/koco-string-utilities",
+  "authors": [
+    "fcharest <frederik.charest@radio-canada.ca>"
+  ],
+  "main": "src/string-utilities.js",
+  "description": "String utilities to be used with a koco project",
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && cp -r src/* dist && rm -rf dist/*.js && babel src --out-dir dist --modules umd --presets es2015,stage-0"
+  },
+  "keywords": [
+    "string",
+    "utilities",
+    "koco"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "slug": "^0.9.1"
+  }
 }
