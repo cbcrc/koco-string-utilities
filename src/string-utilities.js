@@ -1,77 +1,77 @@
 // Copyright (c) CBC/Radio-Canada. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import slug from 'slug';
+import slug from 'url-slug';
+import he from 'he';
 
+class StringUtilities {
 
-var StringUtilities = function() {
-    this.slugOptions = {
-        lower: true,
-        symbols: false,
-        multicharmap: {}
-    };
-};
+  equalsIgnoreCase(first, second) {
+    return (first || '').toLowerCase() === (second || '').toLowerCase();
+  }
 
-StringUtilities.prototype.equalsIgnoreCase = function(str1, str2) {
-    str1 = str1 || '';
-    str2 = str2 || '';
-    return str1.toLowerCase() === str2.toLowerCase();
-};
-
-StringUtilities.prototype.caseInsensitiveCmp = function(left, right) {
+  caseInsensitiveCmp(left, right) {
     return this.equalsIgnoreCase(left, right);
-};
+  }
 
-StringUtilities.prototype.startsWithIgnoreCase = function(str1, str2) {
-    str1 = str1 || '';
-    str2 = str2 || '';
-    return this.equalsIgnoreCase(str1.substr(0, str2.length), str2);
-};
+  startsWithIgnoreCase(first, second) {
+    first = first || '';
+    second = second || '';
+    return this.equalsIgnoreCase(first.substr(0, second.length), second);
+  }
 
-StringUtilities.prototype.capitaliseFirstLetter = function(value) {
+  capitaliseFirstLetter(value) {
     return value.charAt(0).toUpperCase() + value.slice(1);
-};
+  }
 
-StringUtilities.prototype.uncapitaliseFirstLetter = function(value) {
+  uncapitaliseFirstLetter(value) {
     return value.charAt(0).toLowerCase() + value.slice(1);
-};
+  }
 
-StringUtilities.prototype.stripHtmlFromText = function(text) {
+  stripHtmlFromText(text) {
     return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
-};
+  }
 
-StringUtilities.prototype.containsHtmlInText = function(text) {
-    var nbsps = text.match(/&nbsp;/g);
-    var tags = text.match(/<(?:.|\n)*?>/g);
+  containsHtmlInText(text) {
+    const nbsps = text.match(/&nbsp;/g);
+    const tags = text.match(/<(?:.|\n)*?>/g);
 
     return nbsps || tags;
-};
+  }
 
-StringUtilities.prototype.trimRight = function(string, charlist) {
-    if (string) {
-        if (string.toString) {
-            string = string.toString();
-        }
-
-        if (charlist === undefined) {
-            charlist = '\s';
-        }
-
-        return string.replace(new RegExp('[' + charlist + ']+$'), '');
-    }
-
-    return '';
-};
-
-StringUtilities.prototype.toSlug = function(text) {
+  trimRight(text, charlist) {
     if (!text) {
-        return '';
+      return '';
     }
 
-    text = this.stripHtmlFromText(text);
-    text = text.replace(/&amp;/g, '&');
+    if (text.toString) {
+      text = text.toString();
+    }
 
-    return slug(text, this.slugOptions);
-};
+    if (charlist === undefined) {
+      charlist = '\s';
+    }
+
+    return text.replace(new RegExp(`[${charlist}]+$`), '');
+  }
+
+  toSlug(text) {
+    if (!text) {
+      return '';
+    }
+
+    return slug(this.decodeHtmlEntities(this.stripHtmlFromText(text)));
+  }
+
+  encodeHtmlEntities(text) {
+    return he.encode(text, {
+      useNamedReferences: false
+    });
+  }
+
+  decodeHtmlEntities(text) {
+    return he.decode(text);
+  }
+}
 
 export default new StringUtilities();
