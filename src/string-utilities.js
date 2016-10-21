@@ -4,6 +4,20 @@
 import slug from 'url-slug';
 import he from 'he';
 
+const tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+const tagOrComment = new RegExp(
+    '<(?:'
+    // Comment body.
+    + '!--(?:(?:-*[^->])*--+|-?)'
+    // Special "raw text" elements whose content should be elided.
+    + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+    + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+    // Regular name
+    + '|/?[a-z]'
+    + tagBody
+    + ')>',
+    'gi');
+
 class StringUtilities {
 
   equalsIgnoreCase(first, second) {
@@ -28,13 +42,18 @@ class StringUtilities {
     return value.charAt(0).toLowerCase() + value.slice(1);
   }
 
-  stripHtmlFromText(text) {
-    return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
+  stripHtmlFromText(html) {
+    if (!html) {
+      return '';
+    }
+    // From http://stackoverflow.com/a/430240/184596
+    while(html !== (html = html.replace(tagOrComment, ''))) {}
+    return html.replace(/</g, '&lt;').replace(/&nbsp;/g, ' ');
   }
 
   containsHtmlInText(text) {
     const nbsps = text.match(/&nbsp;/g);
-    const tags = text.match(/<(?:.|\n)*?>/g);
+    const tags = text.match(tagOrComment);
 
     return nbsps || tags;
   }

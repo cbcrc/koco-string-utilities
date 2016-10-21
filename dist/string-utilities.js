@@ -51,6 +51,15 @@
     };
   }();
 
+  var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+  var tagOrComment = new RegExp('<(?:'
+  // Comment body.
+  + '!--(?:(?:-*[^->])*--+|-?)'
+  // Special "raw text" elements whose content should be elided.
+  + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*' + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+  // Regular name
+  + '|/?[a-z]' + tagBody + ')>', 'gi');
+
   var StringUtilities = function () {
     function StringUtilities() {
       _classCallCheck(this, StringUtilities);
@@ -85,14 +94,19 @@
       }
     }, {
       key: 'stripHtmlFromText',
-      value: function stripHtmlFromText(text) {
-        return text.replace(/&nbsp;/g, ' ').replace(/<(?:.|\n)*?>/g, '');
+      value: function stripHtmlFromText(html) {
+        if (!html) {
+          return '';
+        }
+        // From http://stackoverflow.com/a/430240/184596
+        while (html !== (html = html.replace(tagOrComment, ''))) {}
+        return html.replace(/</g, '&lt;').replace(/&nbsp;/g, ' ');
       }
     }, {
       key: 'containsHtmlInText',
       value: function containsHtmlInText(text) {
         var nbsps = text.match(/&nbsp;/g);
-        var tags = text.match(/<(?:.|\n)*?>/g);
+        var tags = text.match(tagOrComment);
 
         return nbsps || tags;
       }
