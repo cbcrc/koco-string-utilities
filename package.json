@@ -1,6 +1,6 @@
 {
   "name": "koco-string-utilities",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "homepage": "https://github.com/cbcrc/koco-string-utilities",
   "authors": [
     "fcharest <frederik.charest@radio-canada.ca>"
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "he": "^1.1.0",
-    "url-slug": "^2.0.0"
+    "slugg": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
@@ -30,7 +30,6 @@
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.2.2",
-    "eslint-plugin-react": "^5.1.1",
-    "slugg": "^1.0.0"
+    "eslint-plugin-react": "^5.1.1"
   }
 }
