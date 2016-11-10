@@ -1,7 +1,7 @@
 // Copyright (c) CBC/Radio-Canada. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import slug from 'url-slug';
+import slugg from 'slugg';
 import he from 'he';
 
 const tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
@@ -74,12 +74,12 @@ class StringUtilities {
     return text.replace(new RegExp(`[${charlist}]+$`), '');
   }
 
-  toSlug(text) {
+  toSlug(text, separator, toStrip) {
     if (!text) {
       return '';
     }
 
-    return slug(this.decodeHtmlEntities(this.stripHtmlFromText(text)));
+    return slugg(this.decodeHtmlEntities(this.stripHtmlFromText(text)), separator, toStrip);
   }
 
   encodeHtmlEntities(text) {

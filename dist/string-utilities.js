@@ -1,23 +1,23 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'url-slug', 'he'], factory);
+    define(['exports', 'slugg', 'he'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('url-slug'), require('he'));
+    factory(exports, require('slugg'), require('he'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.urlSlug, global.he);
+    factory(mod.exports, global.slugg, global.he);
     global.stringUtilities = mod.exports;
   }
-})(this, function (exports, _urlSlug, _he) {
+})(this, function (exports, _slugg, _he) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-  var _urlSlug2 = _interopRequireDefault(_urlSlug);
+  var _slugg2 = _interopRequireDefault(_slugg);
 
   var _he2 = _interopRequireDefault(_he);
 
@@ -129,12 +129,12 @@
       }
     }, {
       key: 'toSlug',
-      value: function toSlug(text) {
+      value: function toSlug(text, separator, toStrip) {
         if (!text) {
           return '';
         }
 
-        return (0, _urlSlug2.default)(this.decodeHtmlEntities(this.stripHtmlFromText(text)));
+        return (0, _slugg2.default)(this.decodeHtmlEntities(this.stripHtmlFromText(text)), separator, toStrip);
       }
     }, {
       key: 'encodeHtmlEntities',
